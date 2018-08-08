@@ -1,4 +1,7 @@
-import { assert } from 'chai';
+import chai from 'chai';
+import chaiAsPromised from 'chai-as-promised';
+chai.use(chaiAsPromised);
+const assert = chai.assert;
 
 import Aergo from '../src';
 
@@ -13,11 +16,8 @@ describe('Aergo invalid config', () => {
     });
 
     describe('blockchain()', () => {
-        it('should return disconnected error', (done) => {
-            invalidAergo.blockchain().catch((err) => {
-                assert.equal(err.code, 14);
-                done();
-            });
+        it('should return disconnected error', async () => {
+            return assert.isRejected(invalidAergo.blockchain(), Error, 'Response closed without headers');
         });
     });
 
@@ -36,7 +36,7 @@ describe('Aergo', () => {
 
     describe('getDefaultConfig()', () => {
         it('should return default config', () => {
-            assert.equal(aergo.getConfig().url, '127.0.0.1:7845');
+            assert.equal(aergo.getConfig().url, 'http://127.0.0.1:7845');
         });
     });
 

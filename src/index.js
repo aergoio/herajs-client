@@ -1,9 +1,9 @@
 import { Empty, SingleBytes, TxList, TxBody, Tx, CommitStatus } from '../types/rpc_pb.js';
-import { AergoRPCServiceClient } from '../types/rpc_grpc_pb.js';
+import { AergoRPCServiceClient } from '../types/rpc_pb_service.js';
 import { fromHexString, fromNumber } from './utils.js';
 import promisify from './promisify';
 
-import grpc from 'grpc';
+//import { grpc } from 'grpc-web-client';
 import Base58 from 'base-58';
 
 import Accounts from './accounts';
@@ -14,10 +14,10 @@ class Aergo {
     constructor (config) {
         this.version = 0.1;
         this.config = {
-            url: '127.0.0.1:7845',
+            url: 'http://127.0.0.1:7845',
             ...config
         };
-        this.client = new AergoRPCServiceClient(this.config.url, grpc.credentials.createInsecure());
+        this.client = new AergoRPCServiceClient(this.config.url);
         this.accounts = new Accounts(this);
     }
 

@@ -23,43 +23,56 @@ const external = [
     'google-protobuf',
     'google-protobuf/google/protobuf/timestamp_pb.js',
     'base-58',
+    'grpc-web-client'
 ];
 
 const builds = {
-    // Runtime+compiler CommonJS build (CommonJS)
-    'web-full-cjs': {
+    // CommonJS build (CommonJS)
+    'node-cjs': {
         entry: resolve('src/index.js'),
         dest: resolve('dist/herajs.common.js'),
         format: 'cjs',
         banner,
         external
     },
-    // Runtime+compiler CommonJS build (ES Modules)
-    'web-full-esm': {
+    // CommonJS build (ES Modules)
+    'node-esm': {
         entry: resolve('src/index.js'),
         dest: resolve('dist/herajs.esm.js'),
         format: 'es',
         banner,
         external
     },
-    /*
-    // Runtime+compiler development build (Browser)
-    'web-full-dev': {
+    // Development build (Browser)
+    'web-dev': {
         entry: resolve('src/index.js'),
         dest: resolve('dist/herajs.js'),
         format: 'umd',
         env: 'development',
-        banner
+        banner,
+        plugins: [
+            node_resolve({
+                jsnext: true,
+                preferBuiltins: false
+            })
+        ],
+        context: 'window'
     },
-    // Runtime+compiler production build  (Browser)
-    'web-full-prod': {
+    // Production build (Browser)
+    'web-prod': {
         entry: resolve('src/index.js'),
         dest: resolve('dist/herajs.min.js'),
         format: 'umd',
         env: 'production',
-        banner
+        banner,
+        plugins: [
+            node_resolve({
+                jsnext: true,
+                preferBuiltins: false
+            })
+        ],
+        context: 'window'
     },
-    */
 };
 
 function genConfig (name) {
@@ -71,22 +84,16 @@ function genConfig (name) {
 
     const config = {
         input: opts.entry,
-        external: opts.external,
+        external: opts.external || [],
         plugins: [
 
             commonjs({
-                include: [ 'types/**'  ], // "node_modules/**", 
+                include: [ 'types/**'  ],
                 namedExports
             }),
 
-            /*node_resolve({
-        jsnext: true,
-        preferBuiltins: false
-      }),*/
-
             json(),
 
-            //globals(),
             //builtins(),
 
             babel({
@@ -107,7 +114,8 @@ function genConfig (name) {
             format: opts.format,
             banner: opts.banner,
             name: 'herajs'
-        }
+        },
+        context: opts.context || 'undefined'
     };
 
     Object.defineProperty(config, '_name', {
