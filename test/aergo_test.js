@@ -30,13 +30,13 @@ describe('Aergo invalid config', () => {
 });
 
 describe('Aergo', () => {
-    const aergo = new Aergo(); //default connect to 127.0.0.1:7845
+    const aergo = new Aergo(); //default connect to 127.0.0.1:7844
     let bestBlockHash;
     let bestBlockNumber;
 
     describe('getDefaultConfig()', () => {
         it('should return default config', () => {
-            assert.equal(aergo.getConfig().url, 'http://127.0.0.1:7845');
+            assert.equal(aergo.getConfig().url, 'http://127.0.0.1:7844');
         });
     });
 

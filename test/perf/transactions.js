@@ -19,7 +19,7 @@ async function main() {
     const createdAddress = await aergo.accounts.create('testpass');
     const address = await aergo.accounts.unlock(createdAddress, 'testpass');
 
-    const numberOfTx = 500;
+    const numberOfTx = 1000;
 
     // Create transactions
     const transactions = Array.from({length: numberOfTx}).map((u, i) => ({
