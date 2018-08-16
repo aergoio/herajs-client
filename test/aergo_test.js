@@ -17,7 +17,7 @@ describe('Aergo invalid config', () => {
 
     describe('blockchain()', () => {
         it('should return disconnected error', async () => {
-            return assert.isRejected(invalidAergo.blockchain(), Error, 'Response closed without headers');
+            return assert.isRejected(invalidAergo.blockchain(), Error, '14 UNAVAILABLE: Name resolution failure');
         });
     });
 
@@ -36,7 +36,7 @@ describe('Aergo', () => {
 
     describe('getDefaultConfig()', () => {
         it('should return default config', () => {
-            assert.equal(aergo.getConfig().url, 'http://127.0.0.1:7844');
+            assert.equal(aergo.getConfig().url, '127.0.0.1:7845');
         });
     });
 
