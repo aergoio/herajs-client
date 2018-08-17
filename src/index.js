@@ -1,11 +1,6 @@
-import AergoClient from './client';
-import { initClientWeb, initClientNode } from './client/init.js';
+/*
+ * The default export when importing 'src' is the Node.js target.
+ * To import the Web target, either use a build or import 'src/platforms/web'
+*/
 
-const platformWeb = typeof process === 'undefined' || process.env.TARGET == 'web';
-if (platformWeb) {
-    initClientWeb(AergoClient);
-} else {
-    initClientNode(AergoClient);
-}
-
-export default AergoClient;
+export { default } from './platforms/node';

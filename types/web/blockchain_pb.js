@@ -210,7 +210,7 @@ proto.types.Block.prototype.getHash_asU8 = function() {
 
 /** @param {!(string|Uint8Array)} value */
 proto.types.Block.prototype.setHash = function(value) {
-  jspb.Message.setProto3BytesField(this, 1, value);
+  jspb.Message.setField(this, 1, value);
 };
 
 
@@ -508,7 +508,7 @@ proto.types.BlockHeader.prototype.getPrevblockhash_asU8 = function() {
 
 /** @param {!(string|Uint8Array)} value */
 proto.types.BlockHeader.prototype.setPrevblockhash = function(value) {
-  jspb.Message.setProto3BytesField(this, 1, value);
+  jspb.Message.setField(this, 1, value);
 };
 
 
@@ -523,7 +523,7 @@ proto.types.BlockHeader.prototype.getBlockno = function() {
 
 /** @param {number} value */
 proto.types.BlockHeader.prototype.setBlockno = function(value) {
-  jspb.Message.setProto3IntField(this, 2, value);
+  jspb.Message.setField(this, 2, value);
 };
 
 
@@ -538,7 +538,7 @@ proto.types.BlockHeader.prototype.getTimestamp = function() {
 
 /** @param {number} value */
 proto.types.BlockHeader.prototype.setTimestamp = function(value) {
-  jspb.Message.setProto3IntField(this, 3, value);
+  jspb.Message.setField(this, 3, value);
 };
 
 
@@ -577,7 +577,7 @@ proto.types.BlockHeader.prototype.getBlocksroothash_asU8 = function() {
 
 /** @param {!(string|Uint8Array)} value */
 proto.types.BlockHeader.prototype.setBlocksroothash = function(value) {
-  jspb.Message.setProto3BytesField(this, 4, value);
+  jspb.Message.setField(this, 4, value);
 };
 
 
@@ -616,7 +616,7 @@ proto.types.BlockHeader.prototype.getTxsroothash_asU8 = function() {
 
 /** @param {!(string|Uint8Array)} value */
 proto.types.BlockHeader.prototype.setTxsroothash = function(value) {
-  jspb.Message.setProto3BytesField(this, 5, value);
+  jspb.Message.setField(this, 5, value);
 };
 
 
@@ -655,7 +655,7 @@ proto.types.BlockHeader.prototype.getPubkey_asU8 = function() {
 
 /** @param {!(string|Uint8Array)} value */
 proto.types.BlockHeader.prototype.setPubkey = function(value) {
-  jspb.Message.setProto3BytesField(this, 6, value);
+  jspb.Message.setField(this, 6, value);
 };
 
 
@@ -694,7 +694,7 @@ proto.types.BlockHeader.prototype.getSign_asU8 = function() {
 
 /** @param {!(string|Uint8Array)} value */
 proto.types.BlockHeader.prototype.setSign = function(value) {
-  jspb.Message.setProto3BytesField(this, 7, value);
+  jspb.Message.setField(this, 7, value);
 };
 
 
@@ -837,15 +837,15 @@ proto.types.BlockBody.serializeBinaryToWriter = function(message, writer) {
 
 /**
  * repeated Tx txs = 1;
- * @return {!Array<!proto.types.Tx>}
+ * @return {!Array.<!proto.types.Tx>}
  */
 proto.types.BlockBody.prototype.getTxsList = function() {
-  return /** @type{!Array<!proto.types.Tx>} */ (
+  return /** @type{!Array.<!proto.types.Tx>} */ (
     jspb.Message.getRepeatedWrapperField(this, proto.types.Tx, 1));
 };
 
 
-/** @param {!Array<!proto.types.Tx>} value */
+/** @param {!Array.<!proto.types.Tx>} value */
 proto.types.BlockBody.prototype.setTxsList = function(value) {
   jspb.Message.setRepeatedWrapperField(this, 1, value);
 };
@@ -1005,15 +1005,15 @@ proto.types.TxList.serializeBinaryToWriter = function(message, writer) {
 
 /**
  * repeated Tx txs = 1;
- * @return {!Array<!proto.types.Tx>}
+ * @return {!Array.<!proto.types.Tx>}
  */
 proto.types.TxList.prototype.getTxsList = function() {
-  return /** @type{!Array<!proto.types.Tx>} */ (
+  return /** @type{!Array.<!proto.types.Tx>} */ (
     jspb.Message.getRepeatedWrapperField(this, proto.types.Tx, 1));
 };
 
 
-/** @param {!Array<!proto.types.Tx>} value */
+/** @param {!Array.<!proto.types.Tx>} value */
 proto.types.TxList.prototype.setTxsList = function(value) {
   jspb.Message.setRepeatedWrapperField(this, 1, value);
 };
@@ -1222,7 +1222,7 @@ proto.types.Tx.prototype.getHash_asU8 = function() {
 
 /** @param {!(string|Uint8Array)} value */
 proto.types.Tx.prototype.setHash = function(value) {
-  jspb.Message.setProto3BytesField(this, 1, value);
+  jspb.Message.setField(this, 1, value);
 };
 
 
@@ -1267,7 +1267,7 @@ proto.types.Tx.prototype.getSize = function() {
 
 /** @param {number} value */
 proto.types.Tx.prototype.setSize = function(value) {
-  jspb.Message.setProto3IntField(this, 3, value);
+  jspb.Message.setField(this, 3, value);
 };
 
 
@@ -1493,7 +1493,7 @@ proto.types.TxBody.prototype.getNonce = function() {
 
 /** @param {number} value */
 proto.types.TxBody.prototype.setNonce = function(value) {
-  jspb.Message.setProto3IntField(this, 1, value);
+  jspb.Message.setField(this, 1, value);
 };
 
 
@@ -1532,7 +1532,7 @@ proto.types.TxBody.prototype.getAccount_asU8 = function() {
 
 /** @param {!(string|Uint8Array)} value */
 proto.types.TxBody.prototype.setAccount = function(value) {
-  jspb.Message.setProto3BytesField(this, 2, value);
+  jspb.Message.setField(this, 2, value);
 };
 
 
@@ -1571,7 +1571,7 @@ proto.types.TxBody.prototype.getRecipient_asU8 = function() {
 
 /** @param {!(string|Uint8Array)} value */
 proto.types.TxBody.prototype.setRecipient = function(value) {
-  jspb.Message.setProto3BytesField(this, 3, value);
+  jspb.Message.setField(this, 3, value);
 };
 
 
@@ -1586,7 +1586,7 @@ proto.types.TxBody.prototype.getAmount = function() {
 
 /** @param {number} value */
 proto.types.TxBody.prototype.setAmount = function(value) {
-  jspb.Message.setProto3IntField(this, 4, value);
+  jspb.Message.setField(this, 4, value);
 };
 
 
@@ -1625,7 +1625,7 @@ proto.types.TxBody.prototype.getPayload_asU8 = function() {
 
 /** @param {!(string|Uint8Array)} value */
 proto.types.TxBody.prototype.setPayload = function(value) {
-  jspb.Message.setProto3BytesField(this, 5, value);
+  jspb.Message.setField(this, 5, value);
 };
 
 
@@ -1640,7 +1640,7 @@ proto.types.TxBody.prototype.getLimit = function() {
 
 /** @param {number} value */
 proto.types.TxBody.prototype.setLimit = function(value) {
-  jspb.Message.setProto3IntField(this, 6, value);
+  jspb.Message.setField(this, 6, value);
 };
 
 
@@ -1655,7 +1655,7 @@ proto.types.TxBody.prototype.getPrice = function() {
 
 /** @param {number} value */
 proto.types.TxBody.prototype.setPrice = function(value) {
-  jspb.Message.setProto3IntField(this, 7, value);
+  jspb.Message.setField(this, 7, value);
 };
 
 
@@ -1694,7 +1694,7 @@ proto.types.TxBody.prototype.getSign_asU8 = function() {
 
 /** @param {!(string|Uint8Array)} value */
 proto.types.TxBody.prototype.setSign = function(value) {
-  jspb.Message.setProto3BytesField(this, 8, value);
+  jspb.Message.setField(this, 8, value);
 };
 
 
@@ -1872,7 +1872,7 @@ proto.types.TxIdx.prototype.getBlockhash_asU8 = function() {
 
 /** @param {!(string|Uint8Array)} value */
 proto.types.TxIdx.prototype.setBlockhash = function(value) {
-  jspb.Message.setProto3BytesField(this, 1, value);
+  jspb.Message.setField(this, 1, value);
 };
 
 
@@ -1887,7 +1887,7 @@ proto.types.TxIdx.prototype.getIdx = function() {
 
 /** @param {number} value */
 proto.types.TxIdx.prototype.setIdx = function(value) {
-  jspb.Message.setProto3IntField(this, 2, value);
+  jspb.Message.setField(this, 2, value);
 };
 
 
@@ -2280,7 +2280,7 @@ proto.types.State.prototype.getAccount_asU8 = function() {
 
 /** @param {!(string|Uint8Array)} value */
 proto.types.State.prototype.setAccount = function(value) {
-  jspb.Message.setProto3BytesField(this, 1, value);
+  jspb.Message.setField(this, 1, value);
 };
 
 
@@ -2295,7 +2295,7 @@ proto.types.State.prototype.getNonce = function() {
 
 /** @param {number} value */
 proto.types.State.prototype.setNonce = function(value) {
-  jspb.Message.setProto3IntField(this, 2, value);
+  jspb.Message.setField(this, 2, value);
 };
 
 
@@ -2310,7 +2310,7 @@ proto.types.State.prototype.getBalance = function() {
 
 /** @param {number} value */
 proto.types.State.prototype.setBalance = function(value) {
-  jspb.Message.setProto3IntField(this, 3, value);
+  jspb.Message.setField(this, 3, value);
 };
 
 

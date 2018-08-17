@@ -5,7 +5,8 @@ const babel = require('rollup-plugin-babel');
 const commonjs = require('rollup-plugin-commonjs');
 const json = require('rollup-plugin-json');
 const builtins = require('rollup-plugin-node-builtins');
-const globals = require('rollup-plugin-node-globals');
+//const typescript = require('rollup-plugin-typescript');
+//const globals = require('rollup-plugin-node-globals');
 const progress = require('rollup-plugin-progress');
 const version = process.env.VERSION || require('../package.json').version;
 
@@ -26,10 +27,17 @@ const external = [
     'grpc-web-client'
 ];
 
+// Treating these as external as they are runtime requirements for node only
+const webExternal = [
+    'http',
+    'https',
+    'url'
+]
+
 const builds = {
     // CommonJS build (CommonJS)
     'node-cjs': {
-        entry: resolve('src/index.js'),
+        entry: resolve('src/platforms/node/index.js'),
         dest: resolve('dist/herajs.common.js'),
         format: 'cjs',
         banner,
@@ -37,15 +45,15 @@ const builds = {
     },
     // CommonJS build (ES Modules)
     'node-esm': {
-        entry: resolve('src/index.js'),
+        entry: resolve('src/platforms/node/index.js'),
         dest: resolve('dist/herajs.esm.js'),
         format: 'es',
         banner,
         external
     },
-    // Development build (Browser)
+    // Development build (Web, for browser or node)
     'web-dev': {
-        entry: resolve('src/index.js'),
+        entry: resolve('src/platforms/web/index.js'),
         dest: resolve('dist/herajs.js'),
         format: 'umd',
         env: 'development',
@@ -53,14 +61,17 @@ const builds = {
         plugins: [
             node_resolve({
                 jsnext: true,
+                main: true,
+                browser: true,
                 preferBuiltins: false
-            })
+            }),
         ],
-        context: 'window'
+        context: 'window',
+        external: webExternal
     },
-    // Production build (Browser)
+    // Production build (Web, for browser or node)
     'web-prod': {
-        entry: resolve('src/index.js'),
+        entry: resolve('src/platforms/web/index.js'),
         dest: resolve('dist/herajs.min.js'),
         format: 'umd',
         env: 'production',
@@ -68,10 +79,13 @@ const builds = {
         plugins: [
             node_resolve({
                 jsnext: true,
+                main: true,
+                browser: true,
                 preferBuiltins: false
-            })
+            }),
         ],
-        context: 'window'
+        context: 'window',
+        external: webExternal
     },
 };
 
@@ -88,13 +102,15 @@ function genConfig (name) {
         plugins: [
 
             commonjs({
-                include: [ 'types/**'  ],
+                include: [ 'node_modules/**', 'types/**'  ],
                 namedExports
             }),
 
             json(),
 
             //builtins(),
+
+            //typescript(),
 
             babel({
                 babelrc: false,
