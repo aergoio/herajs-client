@@ -1,6 +1,5 @@
-import base58check from 'base58check';
 import rpcTypes from '../client/types.js';
-import { toHexString, fromHexString } from '../utils.js';
+import { encodeAddress, decodeAddress } from '../accounts/utils.js';
 
 /*
 tansaction = {
@@ -18,8 +17,8 @@ tansaction = {
 export function transactionToTx(tx) {
     const msgtxbody = new rpcTypes.TxBody();
     msgtxbody.setNonce(tx.nonce);
-    msgtxbody.setAccount(base58check.decode(tx.from).data);
-    msgtxbody.setRecipient(base58check.decode(tx.to).data);
+    msgtxbody.setAccount(decodeAddress(tx.from));
+    msgtxbody.setRecipient(decodeAddress(tx.to));
     msgtxbody.setAmount(tx.amount);
     if (tx.payload != null) {
         msgtxbody.setPayload(tx.payload);
@@ -40,8 +39,8 @@ export function txToTransaction(tx) {
     const transaction = {};
     transaction.hash = tx.getHash_asB64();
     transaction.nonce = tx.getBody().getNonce();
-    transaction.from = base58check.encode(Buffer.from(tx.getBody().getAccount_asU8()), '42');
-    transaction.to = base58check.encode(Buffer.from(tx.getBody().getRecipient_asU8()), '42');
+    transaction.from = encodeAddress(tx.getBody().getAccount_asU8());
+    transaction.to = encodeAddress(tx.getBody().getRecipient_asU8());
     transaction.amount = tx.getBody().getAmount();
     transaction.payload = tx.getBody().getPayload();
     transaction.sign = tx.getBody().getSign_asB64();

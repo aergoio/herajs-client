@@ -1,6 +1,6 @@
 import { Personal, Empty, Account, TxBody, Tx } from '../../types/rpc_pb.js';
 import { txToTransaction } from '../transactions/utils.js';
-import base58check from 'base58check';
+import { encodeAddress, decodeAddress } from './utils.js';
 
 class Accounts {
     constructor (aergo) {
@@ -17,7 +17,7 @@ class Accounts {
                         reject(err);
                     } else {
                         const createdAddress = rsp.getAddress_asU8();
-                        resolve(base58check.encode(Buffer.from(createdAddress), '42'));
+                        resolve(encodeAddress(createdAddress));
                     }
                 });
             } catch (exception) {
@@ -35,7 +35,7 @@ class Accounts {
                         reject(err);
                     } else {
                         const accounts = rsp.getAccountsList();
-                        const addresses = accounts.map(account => base58check.encode(Buffer.from(account.getAddress_asU8()), '42'));
+                        const addresses = accounts.map(account => encodeAddress(account.getAddress_asU8()));
                         resolve(addresses);
                     }
                 });
@@ -48,7 +48,7 @@ class Accounts {
     unlock (address, passphrase) {
         return new Promise((resolve, reject) => {
             const account = new Account();
-            account.setAddress(base58check.decode(address).data);
+            account.setAddress(decodeAddress(address));
 
             const personal = new Personal();
             personal.setPassphrase(passphrase);
@@ -60,7 +60,7 @@ class Accounts {
                         reject(err);
                     } else {
                         const createdAddress = rsp.getAddress_asU8();
-                        resolve(base58check.encode(Buffer.from(createdAddress), '42'));
+                        resolve(encodeAddress(createdAddress));
                     }
                 });
             } catch (exception) {
@@ -72,7 +72,7 @@ class Accounts {
     lock (address, passphrase) {
         return new Promise((resolve, reject) => {
             const account = new Account();
-            account.setAddress(base58check.decode(address).data);
+            account.setAddress(decodeAddress(address));
 
             const personal = new Personal();
             personal.setPassphrase(passphrase);
@@ -84,7 +84,7 @@ class Accounts {
                         reject(err);
                     } else {
                         const createdAddress = rsp.getAddress_asU8();
-                        resolve(base58check.encode(Buffer.from(createdAddress), '42'));
+                        resolve(encodeAddress(createdAddress));
                     }
                 });
             } catch (exception) {
@@ -98,8 +98,8 @@ class Accounts {
         return new Promise((resolve, reject) => {
             const msgtxbody = new TxBody();
             msgtxbody.setNonce(tx.nonce);
-            msgtxbody.setAccount(base58check.decode(tx.from).data);
-            msgtxbody.setRecipient(base58check.decode(tx.to).data);
+            msgtxbody.setAccount(decodeAddress(tx.from));
+            msgtxbody.setRecipient(decodeAddress(tx.to));
             msgtxbody.setAmount(tx.amount);
             msgtxbody.setPayload(tx.payload);
             msgtxbody.setType(tx.type);
