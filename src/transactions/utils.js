@@ -1,4 +1,4 @@
-import Base58 from 'base-58';
+import base58check from 'base58check';
 import rpcTypes from '../client/types.js';
 import { toHexString, fromHexString } from '../utils.js';
 
@@ -18,8 +18,8 @@ tansaction = {
 export function transactionToTx(tx) {
     const msgtxbody = new rpcTypes.TxBody();
     msgtxbody.setNonce(tx.nonce);
-    msgtxbody.setAccount(Base58.decode(tx.from));
-    msgtxbody.setRecipient(Base58.decode(tx.to));
+    msgtxbody.setAccount(base58check.decode(tx.from).data);
+    msgtxbody.setRecipient(base58check.decode(tx.to).data);
     msgtxbody.setAmount(tx.amount);
     if (tx.payload != null) {
         msgtxbody.setPayload(tx.payload);
@@ -40,8 +40,8 @@ export function txToTransaction(tx) {
     const transaction = {};
     transaction.hash = tx.getHash_asB64();
     transaction.nonce = tx.getBody().getNonce();
-    transaction.from = Base58.encode(tx.getBody().getAccount());
-    transaction.to = Base58.encode(tx.getBody().getRecipient());
+    transaction.from = base58check.encode(Buffer.from(tx.getBody().getAccount_asU8()), '42');
+    transaction.to = base58check.encode(Buffer.from(tx.getBody().getRecipient_asU8()), '42');
     transaction.amount = tx.getBody().getAmount();
     transaction.payload = tx.getBody().getPayload();
     transaction.sign = tx.getBody().getSign_asB64();
