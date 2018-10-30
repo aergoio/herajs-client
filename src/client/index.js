@@ -1,8 +1,9 @@
 import Accounts from '../accounts';
-import rpcTypes from './types.js';
-import { fromNumber, toBytesUint32, errorMessageForCode } from '../utils.js';
-import promisify from '../promisify.js';
-import { decodeTxHash, encodeTxHash } from '../transactions/utils.js';
+import rpcTypes from './types';
+import { Empty } from '../../types/rpc_pb';
+import { fromNumber, toBytesUint32, errorMessageForCode } from '../utils';
+import promisify from '../promisify';
+import { decodeTxHash, encodeTxHash } from '../transactions/utils';
 import Tx from '../models/tx';
 import Block from '../models/block';
 import Address from '../models/address';
@@ -61,7 +62,7 @@ class AergoClient {
      * @returns {Promise<object>} an object detailing the current status
      */
     blockchain () {
-        const empty = new rpcTypes.Empty();
+        const empty = new Empty();
         return promisify(this.client.blockchain, this.client)(empty).then(result => ({
             ...result.toObject(),
             bestBlockHash: Block.encodeHash(result.getBestBlockHash_asU8())

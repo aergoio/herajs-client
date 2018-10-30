@@ -1,7 +1,8 @@
 import { ADDRESS_PREFIXES } from '../constants.js';
 import bs58check from 'bs58check';
-import { fromNumber } from '../utils';
-import BaseModel from './base';
+import { fromNumber } from '../utils.js';
+import BaseModel from './base.js';
+import Address from './address.js';
 
 /**
  * Data structure for contract function calls.
@@ -87,9 +88,10 @@ class FunctionCall {
  * 
  */
 class Contract extends BaseModel {
-    /**
-     * @param {obj} [data]
-     */
+    code: Buffer;
+    address: Address;
+    functions: any;
+
     constructor(data) {
         super(data);
 
@@ -117,11 +119,11 @@ class Contract extends BaseModel {
     }
     /**
      * Create contract instance and set address
-     * @param {string} address 
+     * @param {Address} address 
      * @return {Contract} contract instance 
      */
-    static atAddress(address) {
-        const contract = new Contract();
+    static atAddress(address: Address): Contract {
+        const contract = new Contract({});
         contract.setAddress(address);
         return contract;
     }
@@ -130,17 +132,17 @@ class Contract extends BaseModel {
      * @param {obj} abi parsed JSON ABI
      * @return {Contract} contract instance
      */
-    static fromAbi(abi) {
-        const contract = new Contract();
+    static fromAbi(abi): Contract {
+        const contract = new Contract({});
         contract.loadAbi(abi);
         return contract;
     }
     /**
      * Set address of contract instance
-     * @param {string} address 
+     * @param {Address} address 
      * @return {Contract} contract instance
      */
-    setAddress(address) {
+    setAddress(address: Address): Contract {
         this.address = address;
         return this;
     }
@@ -149,7 +151,7 @@ class Contract extends BaseModel {
      * @param {obj} abi parsed JSON ABI
      * @return {Contract} contract instance
      */
-    loadAbi(abi) {
+    loadAbi(abi): Contract {
         for (const definition of abi.functions) {
             this.functions[definition.name] = (...args) => new FunctionCall(this, definition, args);
         }
@@ -159,18 +161,18 @@ class Contract extends BaseModel {
      * Return contract code as payload for transaction
      * @return {Buffer} a byte buffer
      */
-    asPayload() {
+    asPayload(): Buffer {
         if (!this.code || !this.code.length) {
             throw new Error('Code is required to generate payload');
         }
         // First 4 bytes are the length
         return Buffer.concat([Buffer.from(fromNumber(4 + this.code.length, 4)), this.code]);
     }
-    static encodeCode(byteArray) {
+    static encodeCode(byteArray: Buffer): string {
         const buf = Buffer.from([ADDRESS_PREFIXES.CONTRACT, ...byteArray]);
         return bs58check.encode(buf);
     }
-    static decodeCode(bs58checkCode) {
+    static decodeCode(bs58checkCode: string): Buffer {
         return bs58check.decode(bs58checkCode).slice(1);
         //return bs58.decode(bs58checkCode);
     }

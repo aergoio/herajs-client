@@ -7,8 +7,10 @@ import json from 'rollup-plugin-json';
 import builtins from 'rollup-plugin-node-builtins';
 import { terser } from 'rollup-plugin-terser';
 import progress from 'rollup-plugin-progress';
-//const typescript = require('rollup-plugin-typescript');
+
 const globals = require('rollup-plugin-node-globals');
+import typescript from 'rollup-plugin-typescript';
+
 const version = process.env.VERSION || require('../package.json').version;
 
 
@@ -46,7 +48,7 @@ const builds = {
         banner,
         plugins: [
             node_resolve({
-                only: ['regenerator-runtime']
+                only: ['regenerator-runtime'],
             }),
         ],
         external
@@ -107,7 +109,8 @@ function genConfig (name) {
     const opts = builds[name];
 
     const namedExports = {
-        [resolve('types/rpc_pb.js')]: 'Empty, Personal, Account, SingleBytes, TxList, TxBody, Tx, CommitStatus, ListParams, Query'.split(', ')
+        [resolve('types/rpc_pb.js')]: 'Empty, Personal, Account, SingleBytes, TxList, TxBody, Tx, CommitStatus, ListParams, Query'.split(', '),
+        [resolve('types/blockchain_pb.js')]: 'TxList, TxBody, Tx, Block'.split(', ')
     };
 
     const config = {
@@ -124,7 +127,7 @@ function genConfig (name) {
 
             builtins(),
 
-            //typescript(),
+            typescript(),
 
             babel({
                 babelrc: false,
@@ -132,11 +135,13 @@ function genConfig (name) {
                 runtimeHelpers: true,
                 plugins: [
                     '@babel/plugin-proposal-object-rest-spread',
+                    '@babel/proposal-class-properties'
                 ],
                 presets: [
                     ["@babel/preset-env", {
                         "modules": false
-                    }]
+                    }],
+                    "@babel/typescript"
                 ]
             }),
 

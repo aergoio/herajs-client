@@ -3,8 +3,8 @@ import chaiAsPromised from 'chai-as-promised';
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
-import Address from '../src/models/address';
-import AergoClient from '../src';
+//import AergoClient from '../src';
+import AergoClient, { Address } from '../dist/herajs.esm';
 
 describe('Address', () => {
     const aergo = new AergoClient();
