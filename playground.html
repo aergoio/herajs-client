@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Herajs console</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+    <script src="https://unpkg.com/@herajs/client@0.1.1/dist/herajs.min.js"></script>
+    <style>
+    body {
+      background-color: #1e1e1e;
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      color: #fff;
+      font-size: 14px;
+      overflow: hidden;
+    }
+    #wrap {
+      display: flex;
+      height: 100vh;
+    }
+    #editor-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+    #editor {
+      flex: 1;
+    }
+    .btn {
+      display: inline-block;
+      background-color: #0064A1;
+      padding: 0 1em;
+      line-height: 2;
+      cursor: pointer;
+    }
+    #console {
+      border: 0;
+      flex: 1;
+      padding: 25px 20px;
+      box-sizing: border-box;
+      font-family: monospace;
+      white-space: pre;
+      max-height: 100vh;
+      overflow: auto;
+    }
+    </style>
+</head>
+<body>
+
+<div id="wrap">
+  <div id="editor-wrap">
+    <div id="tools">
+
+      <div class="btn" onclick="run()">Run</div>
+    </div>
+    <div id="editor" style="width:800px;">
+const fullnode_url = (new URLSearchParams(window.location.search)).get('node_url') || 'http://127.0.0.1:7845';
+const aergo = new herajs.AergoClient({}, new herajs.GrpcWebProvider({url: fullnode_url}));
+async function update() {
+  console.log('Loading..');
+  const blockchainState = await aergo.blockchain();
+  console.log(JSON.stringify(blockchainState, null, 2));
+}
+
+update();</div>
+  </div>
+  <iframe id="console"></iframe>
+</div>
+
+<script src="https://unpkg.com/monaco-editor/min/vs/loader.js"></script>
+<script>
+var editor;
+require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor/min/vs' }});
+var initialCode = document.getElementById('editor').innerHTML;
+require(['vs/editor/editor.main'], function() {
+  editor = monaco.editor.create(document.getElementById('editor'), {
+    value: initialCode,
+    language: 'javascript',
+    theme: 'vs-dark',
+    minimap: { enabled: false }
+  });
+});
+document.getElementById('editor').innerHTML = '';
+
+function log(arguments, element) {
+  element.innerHTML += arguments.join(', ') + "\n";
+  gotoBottom(element);
+}
+
+
+function run() {
+  var code = editor.getModel().getValue();
+  var that = Object.create(null); // create our own this object for the user code
+  
+  var ifrm  = document.getElementsByTagName('iframe')[0], // your iframe
+    iwind = ifrm.contentWindow;
+  var locals = {
+    window: {...iwind, location: window.location},
+    herajs: herajs,
+    document: iwind.document,
+    console: {
+      log: (...arguments) => log(arguments, iwind.document.body),
+      error: (...arguments) => log(arguments, iwind.document.body),
+      warn: (...arguments) => log(arguments, iwind.document.body)
+    }
+  };
+  var sandbox = createSandbox(code, that, locals, iwind); // create a sandbox
+  iwind.document.body.innerHTML = '<style>body{ color: #dcdcdc; line-height: 1.5; font-family: Menlo, Monaco, "Courier New", monospace; font-size: 12px; white-space: pre;}</style>';
+  sandbox(); // call the user code in the sandbox
+}
+
+
+function createSandbox(code, that, locals, window) {
+  var params = []; // the names of local variables
+  var args = []; // the local variables
+
+  for (var param in locals) {
+      if (locals.hasOwnProperty(param)) {
+          args.push(locals[param]);
+          params.push(param);
+      }
+  }
+
+  var context = window.Array.prototype.concat.call(that, params, code); // create the parameter list for the sandbox
+  var sandbox = new (window.Function.prototype.bind.apply(window.Function, context)); // create the sandbox function
+  context = window.Array.prototype.concat.call(that, args); // create the argument list for the sandbox
+  
+  return window.Function.prototype.bind.apply(sandbox, context); // bind the local variables to the sandbox
+}
+
+function gotoBottom(element){
+   element.scrollTop = element.scrollHeight - element.clientHeight;
+}
+</script>
+</body>
+</html>
