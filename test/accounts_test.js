@@ -3,9 +3,8 @@ import chaiAsPromised from 'chai-as-promised';
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
-//import AergoClient from '../src';
-import AergoClient from '../dist/herajs.esm';
-
+import AergoClient from '../src';
+//import AergoClient from '../dist/herajs.esm';
 
 describe('Aergo.Accounts', () => {
     const aergo = new AergoClient(); //default connect to 127.0.0.1:7845
@@ -19,7 +18,7 @@ describe('Aergo.Accounts', () => {
 
     describe('create()', () => {
         it('should return created base58 encoded address', async () => {
-            testAddress = aergo.accounts.create('testpass');
+            testAddress = await aergo.accounts.create('testpass');
             assert.isString(testAddress.toString());
         });
     });

@@ -1,8 +1,8 @@
 import { ADDRESS_PREFIXES } from '../constants.js';
 import bs58check from 'bs58check';
 import { fromNumber } from '../utils.js';
-import BaseModel from './base.js';
 import Address from './address.js';
+import { Function } from '../../types/blockchain_pb.js';
 
 /**
  * Data structure for contract function calls.
@@ -10,6 +10,10 @@ import Address from './address.js';
  * can be passed to the client.
  */
 class FunctionCall {
+    definition: Function.AsObject;
+    args: Array<string|number|boolean>;
+    contractInstance: Contract;
+
     constructor(contractInstance, definition, args) {
         this.definition = definition;
         this.args = args;
@@ -87,13 +91,13 @@ class FunctionCall {
  *     })
  * 
  */
-class Contract extends BaseModel {
+class Contract {
     code: Buffer;
     address: Address;
     functions: any;
 
-    constructor(data) {
-        super(data);
+    constructor(data: Partial<Contract>) {
+        Object.assign(this, data);
 
         this.functions = {};
 

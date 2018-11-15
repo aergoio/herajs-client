@@ -3,10 +3,10 @@ import chaiAsPromised from 'chai-as-promised';
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
-//import AergoClient from '../src';
-//import GrpcProvider from '../src/providers/grpc';
+import AergoClient from '../src';
+import GrpcProvider from '../src/providers/grpc';
 
-import AergoClient, { GrpcProvider } from '../dist/herajs.esm';
+//import AergoClient, { GrpcProvider } from '../dist/herajs.esm';
 
 import {createIdentity, signTransaction, hashTransaction} from '@herajs/crypto';
 

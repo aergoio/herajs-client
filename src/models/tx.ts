@@ -1,9 +1,8 @@
 import { TxBody, Tx as GrpcTx } from '../../types/blockchain_pb';
 import { encodeTxHash, decodeTxHash } from '../transactions/utils.js';
-import Address from './address.js';
-import BaseModel from './base.js';
+import Address from './address';
 
-export default class Tx extends BaseModel {
+export default class Tx {
     hash: string /*bytes*/;
     nonce: number /*uint64*/;
     from: Address /*bytes*/;
@@ -14,6 +13,10 @@ export default class Tx extends BaseModel {
     type: number;
     limit: number /*uint64*/;
     price: number /*uint64*/;
+
+    constructor(data: Partial<Tx>) {
+        Object.assign(this, data);
+    }
 
     static fromGrpc(grpcObject) {
         return new Tx({
