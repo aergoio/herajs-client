@@ -129,7 +129,11 @@ function genConfig (name) {
             builtins(),
 
             typescript({
-
+                tsconfigOverride: {
+                    compilerOptions: {
+                        module: 'ES2015'
+                    }
+                }
             }),
 
             babel({

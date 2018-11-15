@@ -6,6 +6,8 @@
     "declaration": true,
     "allowSyntheticDefaultImports": true,
     "declarationDir": "dist",
-    "target": "es6"
-  },
+    "target": "es6",
+    "module": "commonjs",
+    "moduleResolution": "node"
+  }
 }

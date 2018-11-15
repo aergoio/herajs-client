@@ -143,11 +143,11 @@ class Contract {
     }
     /**
      * Set address of contract instance
-     * @param {Address} address 
+     * @param {Address|string} address 
      * @return {Contract} contract instance
      */
-    setAddress(address: Address): Contract {
-        this.address = address;
+    setAddress(address: Address|string): Contract {
+        this.address = new Address(address);
         return this;
     }
     /**

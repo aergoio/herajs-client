@@ -41,10 +41,10 @@ declare class Contract {
     static fromAbi(abi: any): Contract;
     /**
      * Set address of contract instance
-     * @param {Address} address
+     * @param {Address|string} address
      * @return {Contract} contract instance
      */
-    setAddress(address: Address): Contract;
+    setAddress(address: Address | string): Contract;
     /**
      * Load contract ABI
      * @param {obj} abi parsed JSON ABI

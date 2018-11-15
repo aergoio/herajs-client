@@ -17725,11 +17725,11 @@ class Contract {
     }
     /**
      * Set address of contract instance
-     * @param {Address} address
+     * @param {Address|string} address
      * @return {Contract} contract instance
      */
     setAddress(address) {
-        this.address = address;
+        this.address = new Address(address);
         return this;
     }
     /**
