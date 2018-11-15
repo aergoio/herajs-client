@@ -2729,145 +2729,6 @@
 		isBuffer: isBuffer
 	});
 
-	function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-	  try {
-	    var info = gen[key](arg);
-	    var value = info.value;
-	  } catch (error) {
-	    reject(error);
-	    return;
-	  }
-
-	  if (info.done) {
-	    resolve(value);
-	  } else {
-	    Promise.resolve(value).then(_next, _throw);
-	  }
-	}
-
-	function _asyncToGenerator(fn) {
-	  return function () {
-	    var self = this,
-	        args = arguments;
-	    return new Promise(function (resolve, reject) {
-	      var gen = fn.apply(self, args);
-
-	      function _next(value) {
-	        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-	      }
-
-	      function _throw(err) {
-	        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-	      }
-
-	      _next(undefined);
-	    });
-	  };
-	}
-
-	function _classCallCheck(instance, Constructor) {
-	  if (!(instance instanceof Constructor)) {
-	    throw new TypeError("Cannot call a class as a function");
-	  }
-	}
-
-	function _defineProperties(target, props) {
-	  for (var i = 0; i < props.length; i++) {
-	    var descriptor = props[i];
-	    descriptor.enumerable = descriptor.enumerable || false;
-	    descriptor.configurable = true;
-	    if ("value" in descriptor) descriptor.writable = true;
-	    Object.defineProperty(target, descriptor.key, descriptor);
-	  }
-	}
-
-	function _createClass(Constructor, protoProps, staticProps) {
-	  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-	  if (staticProps) _defineProperties(Constructor, staticProps);
-	  return Constructor;
-	}
-
-	function _defineProperty(obj, key, value) {
-	  if (key in obj) {
-	    Object.defineProperty(obj, key, {
-	      value: value,
-	      enumerable: true,
-	      configurable: true,
-	      writable: true
-	    });
-	  } else {
-	    obj[key] = value;
-	  }
-
-	  return obj;
-	}
-
-	function _objectSpread(target) {
-	  for (var i = 1; i < arguments.length; i++) {
-	    var source = arguments[i] != null ? arguments[i] : {};
-	    var ownKeys = Object.keys(source);
-
-	    if (typeof Object.getOwnPropertySymbols === 'function') {
-	      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
-	        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-	      }));
-	    }
-
-	    ownKeys.forEach(function (key) {
-	      _defineProperty(target, key, source[key]);
-	    });
-	  }
-
-	  return target;
-	}
-
-	function _inherits(subClass, superClass) {
-	  if (typeof superClass !== "function" && superClass !== null) {
-	    throw new TypeError("Super expression must either be null or a function");
-	  }
-
-	  subClass.prototype = Object.create(superClass && superClass.prototype, {
-	    constructor: {
-	      value: subClass,
-	      writable: true,
-	      configurable: true
-	    }
-	  });
-	  if (superClass) _setPrototypeOf(subClass, superClass);
-	}
-
-	function _getPrototypeOf(o) {
-	  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-	    return o.__proto__ || Object.getPrototypeOf(o);
-	  };
-	  return _getPrototypeOf(o);
-	}
-
-	function _setPrototypeOf(o, p) {
-	  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-	    o.__proto__ = p;
-	    return o;
-	  };
-
-	  return _setPrototypeOf(o, p);
-	}
-
-	function _assertThisInitialized(self) {
-	  if (self === void 0) {
-	    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-	  }
-
-	  return self;
-	}
-
-	function _possibleConstructorReturn(self, call) {
-	  if (call && (typeof call === "object" || typeof call === "function")) {
-	    return call;
-	  }
-
-	  return _assertThisInitialized(self);
-	}
-
 	var $jscomp={scope:{},getGlobal:function(a){return "undefined"!=typeof window&&window===a?a:"undefined"!=typeof commonjsGlobal?commonjsGlobal:a}};$jscomp.global=$jscomp.getGlobal(commonjsGlobal);$jscomp.initSymbol=function(){$jscomp.global.Symbol||($jscomp.global.Symbol=$jscomp.Symbol);$jscomp.initSymbol=function(){};};$jscomp.symbolCounter_=0;$jscomp.Symbol=function(a){return "jscomp_symbol_"+a+$jscomp.symbolCounter_++};
 	$jscomp.initSymbolIterator=function(){$jscomp.initSymbol();$jscomp.global.Symbol.iterator||($jscomp.global.Symbol.iterator=$jscomp.global.Symbol("iterator"));$jscomp.initSymbolIterator=function(){};};$jscomp.makeIterator=function(a){$jscomp.initSymbolIterator();$jscomp.initSymbol();$jscomp.initSymbolIterator();var b=a[Symbol.iterator];if(b)return b.call(a);var c=0;return {next:function(){return c<a.length?{done:!1,value:a[c++]}:{done:!0}}}};
 	$jscomp.arrayFromIterator=function(a){for(var b,c=[];!(b=a.next()).done;)c.push(b.value);return c};$jscomp.arrayFromIterable=function(a){return a instanceof Array?a:$jscomp.arrayFromIterator($jscomp.makeIterator(a))};$jscomp.inherits=function(a,b){function c(){}c.prototype=b.prototype;a.prototype=new c;a.prototype.constructor=a;for(var d in b)if(Object.defineProperties){var e=Object.getOwnPropertyDescriptor(b,d);e&&Object.defineProperty(a,d,e);}else a[d]=b[d];};$jscomp.array=$jscomp.array||{};
@@ -16814,7 +16675,7 @@
 	    /**
 	     * Create a new account in the node.
 	     * @param {string} passphrase
-	     * @returns {Promise<string>} newly created account address
+	     * @returns {Promise<Address>} newly created account address
 	     */
 	    create(passphrase) {
 	        return new Promise((resolve, reject) => {
@@ -16838,7 +16699,7 @@
 	    }
 	    /**
 	     * Get list of accounts.
-	     * @returns {Promise<string[]>} list of account addresses
+	     * @returns {Promise<Address[]>} list of account addresses
 	     */
 	    get() {
 	        return new Promise((resolve, reject) => {
@@ -16862,9 +16723,9 @@
 	    }
 	    /**
 	     * Unlock account.
-	     * @param {string} address
-	     * @param {string} passphrase
-	     * @returns {Promise<string>} unlocked account address
+	     * @param {Address|string} address
+	     * @param {Address|string} passphrase
+	     * @returns {Promise<Address>} unlocked account address
 	     */
 	    unlock(address, passphrase) {
 	        return new Promise((resolve, reject) => {
@@ -16891,8 +16752,8 @@
 	    }
 	    /**
 	     * Lock account.
-	     * @param {string} address
-	     * @param {string} passphrase
+	     * @param {Address|string} address
+	     * @param {Address|string} passphrase
 	     * @returns {Promise<Address>} locked account address
 	     */
 	    lock(address, passphrase) {
@@ -16945,6 +16806,145 @@
 	        }
 	        return promisify(this.client.signTX, this.client)(tx.toGrpc()).then(signedtx => Tx$$1.fromGrpc(signedtx));
 	    }
+	}
+
+	function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+	  try {
+	    var info = gen[key](arg);
+	    var value = info.value;
+	  } catch (error) {
+	    reject(error);
+	    return;
+	  }
+
+	  if (info.done) {
+	    resolve(value);
+	  } else {
+	    Promise.resolve(value).then(_next, _throw);
+	  }
+	}
+
+	function _asyncToGenerator(fn) {
+	  return function () {
+	    var self = this,
+	        args = arguments;
+	    return new Promise(function (resolve, reject) {
+	      var gen = fn.apply(self, args);
+
+	      function _next(value) {
+	        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+	      }
+
+	      function _throw(err) {
+	        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+	      }
+
+	      _next(undefined);
+	    });
+	  };
+	}
+
+	function _classCallCheck(instance, Constructor) {
+	  if (!(instance instanceof Constructor)) {
+	    throw new TypeError("Cannot call a class as a function");
+	  }
+	}
+
+	function _defineProperties(target, props) {
+	  for (var i = 0; i < props.length; i++) {
+	    var descriptor = props[i];
+	    descriptor.enumerable = descriptor.enumerable || false;
+	    descriptor.configurable = true;
+	    if ("value" in descriptor) descriptor.writable = true;
+	    Object.defineProperty(target, descriptor.key, descriptor);
+	  }
+	}
+
+	function _createClass(Constructor, protoProps, staticProps) {
+	  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+	  if (staticProps) _defineProperties(Constructor, staticProps);
+	  return Constructor;
+	}
+
+	function _defineProperty(obj, key, value) {
+	  if (key in obj) {
+	    Object.defineProperty(obj, key, {
+	      value: value,
+	      enumerable: true,
+	      configurable: true,
+	      writable: true
+	    });
+	  } else {
+	    obj[key] = value;
+	  }
+
+	  return obj;
+	}
+
+	function _objectSpread(target) {
+	  for (var i = 1; i < arguments.length; i++) {
+	    var source = arguments[i] != null ? arguments[i] : {};
+	    var ownKeys = Object.keys(source);
+
+	    if (typeof Object.getOwnPropertySymbols === 'function') {
+	      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
+	        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+	      }));
+	    }
+
+	    ownKeys.forEach(function (key) {
+	      _defineProperty(target, key, source[key]);
+	    });
+	  }
+
+	  return target;
+	}
+
+	function _inherits(subClass, superClass) {
+	  if (typeof superClass !== "function" && superClass !== null) {
+	    throw new TypeError("Super expression must either be null or a function");
+	  }
+
+	  subClass.prototype = Object.create(superClass && superClass.prototype, {
+	    constructor: {
+	      value: subClass,
+	      writable: true,
+	      configurable: true
+	    }
+	  });
+	  if (superClass) _setPrototypeOf(subClass, superClass);
+	}
+
+	function _getPrototypeOf(o) {
+	  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+	    return o.__proto__ || Object.getPrototypeOf(o);
+	  };
+	  return _getPrototypeOf(o);
+	}
+
+	function _setPrototypeOf(o, p) {
+	  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+	    o.__proto__ = p;
+	    return o;
+	  };
+
+	  return _setPrototypeOf(o, p);
+	}
+
+	function _assertThisInitialized(self) {
+	  if (self === void 0) {
+	    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+	  }
+
+	  return self;
+	}
+
+	function _possibleConstructorReturn(self, call) {
+	  if (call && (typeof call === "object" || typeof call === "function")) {
+	    return call;
+	  }
+
+	  return _assertThisInitialized(self);
 	}
 
 	var CommitStatus = rpcTypes.CommitStatus;
@@ -17099,368 +17099,266 @@
 	    }
 	}
 
-	var CommitStatus$1 = rpcTypes.CommitStatus;
+	const CommitStatus$1 = rpcTypes.CommitStatus;
 	/**
 	 * Main aergo client controller.
 	 */
-
-	var AergoClient =
-	/*#__PURE__*/
-	function () {
-	  /**
-	   * Create a new auto-configured client with:
-	   * 
-	   * .. code-block:: javascript
-	   * 
-	   *     import AergoClient from '@herajs/client';
-	   *     const aergo = new AergoClient();
-	   * 
-	   * @param [object] configuration. Unused at the moment.
-	   * @param [Provider] custom configured provider. By default a provider is configured automatically depending on the environment.
-	   */
-	  function AergoClient(config) {
-	    var provider = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-
-	    _classCallCheck(this, AergoClient);
-
-	    this.version = 0.1;
-	    this.config = _objectSpread({}, config);
-	    this.client = provider || this.defaultProvider();
-	    this.accounts = new Accounts(this);
-	  }
-
-	  _createClass(AergoClient, [{
-	    key: "defaultProvider",
-	    value: function defaultProvider() {} // Platform-specific override, see ../platforms/**
-	    // for auto-configuration of a provider.
-	    // Can also manually pass provider to constructor.
-
+	class AergoClient {
+	    /**
+	     * Create a new auto-configured client with:
+	     *
+	     * .. code-block:: javascript
+	     *
+	     *     import AergoClient from '@herajs/client';
+	     *     const aergo = new AergoClient();
+	     *
+	     * @param [object] configuration. Unused at the moment.
+	     * @param [Provider] custom configured provider. By default a provider is configured automatically depending on the environment.
+	     */
+	    constructor(config, provider = null) {
+	        this.config = Object.assign({}, config);
+	        this.client = provider || this.defaultProvider();
+	        this.accounts = new Accounts(this);
+	    }
+	    defaultProvider() {
+	        // Platform-specific override, see ../platforms/**
+	        // for auto-configuration of a provider.
+	        // Can also manually pass provider to constructor.
+	    }
 	    /**
 	     * Set a new provider
 	     * @param {Provider} provider
 	     */
-
-	  }, {
-	    key: "setProvider",
-	    value: function setProvider(provider) {
-	      this.client = provider;
+	    setProvider(provider) {
+	        this.client = provider;
 	    }
-	  }, {
-	    key: "getConfig",
-	    value: function getConfig() {
-	      return this.config;
+	    getConfig() {
+	        return this.config;
 	    }
-	  }, {
-	    key: "isConnected",
-	    value: function isConnected() {
-	      return false;
+	    isConnected() {
+	        return false;
 	    }
 	    /**
 	     * Request current status of blockchain.
 	     * @returns {Promise<object>} an object detailing the current status
 	     */
-
-	  }, {
-	    key: "blockchain",
-	    value: function blockchain() {
-	      var empty = new rpc_pb_1();
-	      return promisify(this.client.blockchain, this.client)(empty).then(function (result) {
-	        return _objectSpread({}, result.toObject(), {
-	          bestBlockHash: Block.encodeHash(result.getBestBlockHash_asU8())
-	        });
-	      });
+	    blockchain() {
+	        const empty = new rpc_pb_1();
+	        return promisify(this.client.blockchain, this.client)(empty).then(result => (Object.assign({}, result.toObject(), { bestBlockHash: Block.encodeHash(result.getBestBlockHash_asU8()) })));
 	    }
 	    /**
-	     * Get transaction information in the aergo node. 
+	     * Get transaction information in the aergo node.
 	     * If transaction is in the block return result with block hash and index.
 	     * @param {string} txhash transaction hash
 	     * @returns {Promise<object>} transaction details, object of tx: <Tx> and block: { hash, idx }
 	     */
-
-	  }, {
-	    key: "getTransaction",
-	    value: function getTransaction(txhash) {
-	      var _this = this;
-
-	      var singleBytes = new rpcTypes.SingleBytes();
-	      singleBytes.setValue(Buffer$1.from(decodeTxHash(txhash)));
-	      return new Promise(function (resolve, reject) {
-	        _this.client.getBlockTX(singleBytes, function (err, result) {
-	          if (err) {
-	            _this.client.getTX(singleBytes, function (err, result) {
-	              if (err) {
-	                reject(err);
-	              } else {
-	                var res = {};
-	                res.tx = Tx$$1.fromGrpc(result);
-	                resolve(res);
-	              }
+	    getTransaction(txhash) {
+	        const singleBytes = new rpcTypes.SingleBytes();
+	        singleBytes.setValue(Buffer.from(decodeTxHash(txhash)));
+	        return new Promise((resolve, reject) => {
+	            this.client.getBlockTX(singleBytes, (err, result) => {
+	                if (err) {
+	                    this.client.getTX(singleBytes, (err, result) => {
+	                        if (err) {
+	                            reject(err);
+	                        }
+	                        else {
+	                            const res = {};
+	                            res.tx = Tx$$1.fromGrpc(result);
+	                            resolve(res);
+	                        }
+	                    });
+	                }
+	                else {
+	                    const res = {};
+	                    res.block = {
+	                        hash: Block.encodeHash(result.getTxidx().getBlockhash_asU8()),
+	                        idx: result.getTxidx().getIdx()
+	                    };
+	                    res.tx = Tx$$1.fromGrpc(result.getTx());
+	                    resolve(res);
+	                }
 	            });
-	          } else {
-	            var res = {};
-	            res.block = {
-	              hash: Block.encodeHash(result.getTxidx().getBlockhash_asU8()),
-	              idx: result.getTxidx().getIdx()
-	            };
-	            res.tx = Tx$$1.fromGrpc(result.getTx());
-	            resolve(res);
-	          }
 	        });
-	      });
 	    }
 	    /**
 	     * Retrieve information about a block.
-	     * 
+	     *
 	     * @param {string|number} hashOrNumber either 32-byte block hash encoded as a bs58 string or block height as a number.
 	     * @returns {Promise<Block>} block details
 	     */
-
-	  }, {
-	    key: "getBlock",
-	    value: function getBlock(hashOrNumber) {
-	      if (typeof hashOrNumber === 'undefined') {
-	        throw new Error('Missing argument block hash or number');
-	      }
-
-	      if (typeof hashOrNumber === 'string') {
-	        hashOrNumber = Block.decodeHash(hashOrNumber);
-	      } else if (typeof hashOrNumber === 'number') {
-	        hashOrNumber = fromNumber(hashOrNumber);
-	      }
-
-	      if (hashOrNumber.length != 32 && hashOrNumber.length != 8) {
-	        throw new Error('Invalid block hash. Must be 32 byte encoded in bs58. Did you mean to pass a block number?');
-	      }
-
-	      var singleBytes = new rpcTypes.SingleBytes();
-	      singleBytes.setValue(Buffer$1.from(hashOrNumber));
-	      return promisify(this.client.getBlock, this.client)(singleBytes).then(function (result) {
-	        return Block.fromGrpc(result);
-	      });
+	    getBlock(hashOrNumber) {
+	        if (typeof hashOrNumber === 'undefined') {
+	            throw new Error('Missing argument block hash or number');
+	        }
+	        if (typeof hashOrNumber === 'string') {
+	            hashOrNumber = Block.decodeHash(hashOrNumber);
+	        }
+	        else if (typeof hashOrNumber === 'number') {
+	            hashOrNumber = fromNumber(hashOrNumber);
+	        }
+	        if (hashOrNumber.length != 32 && hashOrNumber.length != 8) {
+	            throw new Error('Invalid block hash. Must be 32 byte encoded in bs58. Did you mean to pass a block number?');
+	        }
+	        const singleBytes = new rpcTypes.SingleBytes();
+	        singleBytes.setValue(Buffer.from(hashOrNumber));
+	        return promisify(this.client.getBlock, this.client)(singleBytes).then(result => Block.fromGrpc(result));
 	    }
 	    /**
 	     * Retrieve the last n blocks, beginning from given block .
-	     * 
+	     *
 	     * @param {string|number} hashOrNumber either 32-byte block hash encoded as a bs58 string or block height as a number.
 	     * @param {number} size number of blocks to return
 	     * @returns {Promise<Block[]>} list of block headers (blocks without body)
 	     */
-
-	  }, {
-	    key: "getBlockHeaders",
-	    value: function getBlockHeaders(hashOrNumber) {
-	      var size = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 10;
-	      var offset = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-	      var desc = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
-	      var params = new rpcTypes.ListParams();
-
-	      if (typeof hashOrNumber === 'string') {
-	        hashOrNumber = Block.decodeHash(hashOrNumber);
-
-	        if (hashOrNumber.length != 32) {
-	          throw new Error('Invalid block hash. Must be 32 byte encoded in bs58. Did you mean to pass a block number?');
+	    getBlockHeaders(hashOrNumber, size = 10, offset = 0, desc = true) {
+	        const params = new rpcTypes.ListParams();
+	        if (typeof hashOrNumber === 'string') {
+	            hashOrNumber = Block.decodeHash(hashOrNumber);
+	            if (hashOrNumber.length != 32) {
+	                throw new Error('Invalid block hash. Must be 32 byte encoded in bs58. Did you mean to pass a block number?');
+	            }
+	            params.setHash(Buffer.from(hashOrNumber));
 	        }
-
-	        params.setHash(Buffer$1.from(hashOrNumber));
-	      } else if (typeof hashOrNumber === 'number') {
-	        params.setHeight(hashOrNumber);
-	      } else {
-	        throw new Error('Block hash or number required.');
-	      }
-
-	      params.setSize(size);
-	      params.setOffset(offset);
-	      params.setAsc(!desc);
-	      return promisify(this.client.listBlockHeaders, this.client)(params).then(function (result) {
-	        return result.getBlocksList().map(function (item) {
-	          return Block.fromGrpc(item);
+	        else if (typeof hashOrNumber === 'number') {
+	            params.setHeight(hashOrNumber);
+	        }
+	        else {
+	            throw new Error('Block hash or number required.');
+	        }
+	        params.setSize(size);
+	        params.setOffset(offset);
+	        params.setAsc(!desc);
+	        return promisify(this.client.listBlockHeaders, this.client)(params).then(result => {
+	            return result.getBlocksList().map(item => Block.fromGrpc(item));
 	        });
-	      });
 	    }
-	  }, {
-	    key: "getBlockStream",
-	    value: function getBlockStream() {
-	      var empty = new rpcTypes.Empty();
-	      var stream = this.client.listBlockStream(empty);
-
-	      try {
-	        stream.on('error', function (error) {
-	          if (error.code === 1) {
-	            // grpc.status.CANCELLED
-	            return;
-	          }
-	        });
-	      } catch (e) {// ignore. 'error' does not work on grpc-web implementation
-	      }
-
-	      return {
-	        _stream: stream,
-	        on: function on(ev, callback) {
-	          return stream.on(ev, function (data) {
-	            return callback(Block.fromGrpc(data));
-	          });
-	        },
-	        cancel: function cancel() {
-	          return stream.cancel();
+	    getBlockStream() {
+	        const empty = new rpcTypes.Empty();
+	        const stream = this.client.listBlockStream(empty);
+	        try {
+	            stream.on('error', (error) => {
+	                if (error.code === 1) { // grpc.status.CANCELLED
+	                    return;
+	                }
+	            });
 	        }
-	      };
+	        catch (e) {
+	            // ignore. 'error' does not work on grpc-web implementation
+	        }
+	        return {
+	            _stream: stream,
+	            on: (ev, callback) => stream.on(ev, data => callback(Block.fromGrpc(data))),
+	            cancel: () => stream.cancel()
+	        };
 	    }
 	    /**
 	     * Retrieve account state, including current balance and nonce.
 	     * @param {string} address Account address encoded in Base58check
 	     * @returns {Promise<object>} account state
 	     */
-
-	  }, {
-	    key: "getState",
-	    value: function getState(address) {
-	      var singleBytes = new rpcTypes.SingleBytes();
-	      singleBytes.setValue(Buffer$1.from(new Address(address).asBytes()));
-	      return promisify(this.client.getState, this.client)(singleBytes).then(function (state) {
-	        return state.toObject();
-	      });
+	    getState(address) {
+	        const singleBytes = new rpcTypes.SingleBytes();
+	        singleBytes.setValue(Buffer.from((new Address(address)).asBytes()));
+	        return promisify(this.client.getState, this.client)(singleBytes).then(state => state.toObject());
 	    }
-	  }, {
-	    key: "getNonce",
-	    value: function getNonce(address) {
-	      var singleBytes = new rpcTypes.SingleBytes();
-	      singleBytes.setValue(Buffer$1.from(new Address(address).asBytes()));
-	      return promisify(this.client.getState, this.client)(singleBytes).then(function (state) {
-	        return state.getNonce();
-	      });
+	    getNonce(address) {
+	        const singleBytes = new rpcTypes.SingleBytes();
+	        singleBytes.setValue(Buffer.from((new Address(address)).asBytes()));
+	        return promisify(this.client.getState, this.client)(singleBytes).then(state => state.getNonce());
 	    }
-	  }, {
-	    key: "verifyTransaction",
-	    value: function verifyTransaction()
-	    /*tx*/
-	    {
-	      // Untested
-	      return promisify(this.client.verifyTX, this.client)()(function (grpcObject) {
-	        return Tx$$1.fromGrpc(grpcObject);
-	      });
+	    verifyTransaction( /*tx*/) {
+	        // Untested
+	        return promisify(this.client.verifyTX, this.client)()(grpcObject => Tx$$1.fromGrpc(grpcObject));
 	    }
 	    /**
 	     * Send a signed transaction to the network.
 	     * @param {Tx} tx signed transaction
 	     * @returns {Promise<string>} transaction hash
 	     */
-
-	  }, {
-	    key: "sendSignedTransaction",
-	    value: function sendSignedTransaction(tx) {
-	      var _this2 = this;
-
-	      return new Promise(function (resolve, reject) {
-	        var txs = new rpcTypes.TxList();
-
-	        if (!(tx instanceof Tx$$1)) {
-	          tx = new Tx$$1(tx);
-	        }
-
-	        txs.addTxs(tx.toGrpc(), 0);
-
-	        _this2.client.commitTX(txs, function (err, result) {
-	          if (err == null && result.getResultsList()[0].getError()) {
-	            err = new Error();
-	            err.code = result.getResultsList()[0].getError();
-	            err.message = errorMessageForCode(err.code);
-	          }
-
-	          if (err) {
-	            reject(err);
-	          } else {
-	            resolve(encodeTxHash(result.getResultsList()[0].getHash()));
-	          }
+	    sendSignedTransaction(tx) {
+	        return new Promise((resolve, reject) => {
+	            const txs = new rpcTypes.TxList();
+	            if (!(tx instanceof Tx$$1)) {
+	                tx = new Tx$$1(tx);
+	            }
+	            txs.addTxs(tx.toGrpc(), 0);
+	            this.client.commitTX(txs, (err, result) => {
+	                if (err == null && result.getResultsList()[0].getError()) {
+	                    err = new Error();
+	                    err.code = result.getResultsList()[0].getError();
+	                    err.message = errorMessageForCode(err.code);
+	                }
+	                if (err) {
+	                    reject(err);
+	                }
+	                else {
+	                    resolve(encodeTxHash(result.getResultsList()[0].getHash()));
+	                }
+	            });
 	        });
-	      });
 	    }
-	  }, {
-	    key: "getVoteResult",
-	    value: function getVoteResult(count) {
-	      var singleBytes = new rpcTypes.SingleBytes();
-	      singleBytes.setValue(new Uint8Array(toBytesUint32(count)));
-	      return promisify(this.client.getVotes, this.client)(singleBytes).then(function (state) {
-	        return state.getVotesList();
-	      });
+	    getVoteResult(count) {
+	        const singleBytes = new rpcTypes.SingleBytes();
+	        singleBytes.setValue(new Uint8Array(toBytesUint32(count)));
+	        return promisify(this.client.getVotes, this.client)(singleBytes).then(state => state.getVotesList());
 	    }
 	    /**
 	     * Retrieve the transaction receipt for a transaction
 	     * @param {string} txhash transaction hash
 	     * @return {Promise<object>} transaction receipt
 	     */
-
-	  }, {
-	    key: "getTransactionReceipt",
-	    value: function getTransactionReceipt(txhash) {
-	      var singleBytes = new rpcTypes.SingleBytes();
-	      singleBytes.setValue(Buffer$1.from(decodeTxHash(txhash)));
-	      return promisify(this.client.getReceipt, this.client)(singleBytes).then(function (grpcObject) {
-	        var obj = grpcObject.toObject();
-	        return {
-	          contractaddress: new Address(grpcObject.getContractaddress_asU8()),
-	          result: obj.ret,
-	          //JSON.parse(obj.ret),
-	          status: obj.status
-	        };
-	      });
+	    getTransactionReceipt(txhash) {
+	        const singleBytes = new rpcTypes.SingleBytes();
+	        singleBytes.setValue(Buffer.from(decodeTxHash(txhash)));
+	        return promisify(this.client.getReceipt, this.client)(singleBytes).then(grpcObject => {
+	            const obj = grpcObject.toObject();
+	            return {
+	                contractaddress: new Address(grpcObject.getContractaddress_asU8()),
+	                result: obj.ret,
+	                status: obj.status
+	            };
+	        });
 	    }
 	    /**
 	     * Query contract state
 	     * @param {FunctionCall} functionCall call details
 	     * @returns {Promise<object>} result of query
 	     */
-
-	  }, {
-	    key: "queryContract",
-	    value: function queryContract(functionCall) {
-	      var query = new rpcTypes.Query();
-	      query.setContractaddress(Buffer$1.from(new Address(functionCall.contractInstance.address).asBytes()));
-	      query.setQueryinfo(Buffer$1.from(JSON.stringify(functionCall.asQueryInfo())));
-	      return promisify(this.client.queryContract, this.client)(query).then(function (grpcObject) {
-	        return JSON.parse(Buffer$1.from(grpcObject.getValue()).toString());
-	      });
+	    queryContract(functionCall) {
+	        const query = new rpcTypes.Query();
+	        query.setContractaddress(Buffer.from((new Address(functionCall.contractInstance.address)).asBytes()));
+	        query.setQueryinfo(Buffer.from(JSON.stringify(functionCall.asQueryInfo())));
+	        return promisify(this.client.queryContract, this.client)(query).then(grpcObject => JSON.parse(Buffer.from(grpcObject.getValue()).toString()));
 	    }
 	    /**
 	     * Query contract ABI
 	     * @param {string} address of contract
 	     * @returns {Promise<object>} abi
 	     */
-
-	  }, {
-	    key: "getABI",
-	    value: function getABI(address) {
-	      var singleBytes = new rpcTypes.SingleBytes();
-	      singleBytes.setValue(Buffer$1.from(new Address(address).asBytes()));
-	      return promisify(this.client.getABI, this.client)(singleBytes).then(function (grpcObject) {
-	        var obj = grpcObject.toObject();
-	        return {
-	          language: obj.language,
-	          version: obj.version,
-	          functions: obj.functionsList.map(function (item) {
+	    getABI(address) {
+	        const singleBytes = new rpcTypes.SingleBytes();
+	        singleBytes.setValue(Buffer.from((new Address(address)).asBytes()));
+	        return promisify(this.client.getABI, this.client)(singleBytes).then(grpcObject => {
+	            const obj = grpcObject.toObject();
 	            return {
-	              name: item.name,
-	              arguments: item.argumentsList
+	                language: obj.language,
+	                version: obj.version,
+	                functions: obj.functionsList.map(item => ({
+	                    name: item.name,
+	                    arguments: item.argumentsList
+	                }))
 	            };
-	          })
-	        };
-	      });
+	        });
 	    }
 	    /**
 	     * Get list of peers of connected node
 	     */
-
-	  }, {
-	    key: "getPeers",
-	    value: function getPeers() {
-	      var empty = new rpcTypes.Empty();
-	      return promisify(this.client.getPeers, this.client)(empty).then(function (grpcObject) {
-	        return grpcObject.toObject();
-	      });
+	    getPeers() {
+	        const empty = new rpcTypes.Empty();
+	        return promisify(this.client.getPeers, this.client)(empty).then(grpcObject => grpcObject.toObject());
 	    }
-	  }]);
-
-	  return AergoClient;
-	}();
+	}
 
 	var Provider = function Provider(config) {
 	  _classCallCheck(this, Provider);

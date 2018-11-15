@@ -18,9 +18,9 @@ class Accounts {
     /**
      * Create a new account in the node.
      * @param {string} passphrase 
-     * @returns {Promise<string>} newly created account address
+     * @returns {Promise<Address>} newly created account address
      */
-    create (passphrase: string) {
+    create (passphrase: string): Promise<Address> {
         return new Promise((resolve, reject) => {
             const personal = new Personal();
             personal.setPassphrase(passphrase);
@@ -41,9 +41,9 @@ class Accounts {
 
     /**
      * Get list of accounts.
-     * @returns {Promise<string[]>} list of account addresses
+     * @returns {Promise<Address[]>} list of account addresses
      */
-    get () {
+    get (): Promise<Address[]> {
         return new Promise((resolve, reject) => {
             const empty = new Empty();
             try {
@@ -64,9 +64,9 @@ class Accounts {
 
     /**
      * Unlock account.
-     * @param {string} address 
-     * @param {string} passphrase 
-     * @returns {Promise<string>} unlocked account address
+     * @param {Address|string} address 
+     * @param {Address|string} passphrase 
+     * @returns {Promise<Address>} unlocked account address
      */
     unlock (address: Address|string, passphrase: string): Promise<Address> {
         return new Promise((resolve, reject) => {
@@ -94,8 +94,8 @@ class Accounts {
 
     /**
      * Lock account.
-     * @param {string} address 
-     * @param {string} passphrase 
+     * @param {Address|string} address 
+     * @param {Address|string} passphrase 
      * @returns {Promise<Address>} locked account address
      */
     lock (address: Address|string, passphrase: string): Promise<Address> {

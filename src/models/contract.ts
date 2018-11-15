@@ -1,8 +1,8 @@
 import { ADDRESS_PREFIXES } from '../constants.js';
 import bs58check from 'bs58check';
 import { fromNumber } from '../utils.js';
-import Address from './address.js';
-import { Function } from '../../types/blockchain_pb.js';
+import Address from './address';
+import { Function } from '../../types/blockchain_pb';
 
 /**
  * Data structure for contract function calls.
