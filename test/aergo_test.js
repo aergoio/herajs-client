@@ -61,7 +61,6 @@ describe('Aergo', () => {
     describe('getChainInfo()', () => {
         it('should return basic chain information', async () => {
             const info = await aergo.getChainInfo();
-            console.log(info);
             assert.equal(info.maxblocksize, 1048576);
         });
     });
