@@ -4,7 +4,7 @@ import { TxInBlock, Tx as GrpcTx, StateQueryProof } from '../../types/blockchain
 import {
     Empty, PeerList as GrpcPeerList, Peer as GrpcPeer,
     BlockchainStatus as GrpcBlockchainStatus, CommitResultList,
-    Name, NameInfo, Staking
+    Name, NameInfo, Staking, ChainInfo as GrpcChainInfo
 } from '../../types/rpc_pb';
 import { fromNumber, toBytesUint32, errorMessageForCode } from '../utils';
 import promisify from '../promisify';
@@ -16,6 +16,7 @@ import Address from '../models/address';
 import Peer from '../models/peer';
 import State from '../models/state';
 import Amount from '../models/amount';
+import ChainInfo from '../models/chaininfo';
 import { FunctionCall, StateQuery } from '../models/contract';
 
 import bs58 from 'bs58';
@@ -84,6 +85,16 @@ class AergoClient {
             bestBlockHash: Block.encodeHash(result.getBestBlockHash_asU8())
         }));
     }
+
+    /**
+     * Request current status of blockchain.
+     * @returns {Promise<object>} an object detailing the current status
+     */
+    getChainInfo (): Promise<ChainInfo> {
+        const empty = new Empty();
+        return promisify(this.client.getChainInfo, this.client)(empty).then((grpcObject: GrpcChainInfo): ChainInfo => ChainInfo.fromGrpc(grpcObject));
+    }
+
 
     /**
      * Get transaction information in the aergo node. 
