@@ -2,6 +2,7 @@ import { TxBody, Tx as GrpcTx } from '../../types/blockchain_pb';
 import { encodeTxHash, decodeTxHash } from '../transactions/utils';
 import Address from './address';
 import Amount from './amount';
+import { Buffer } from 'buffer';
 
 export default class Tx {
     hash: string /*bytes*/;
