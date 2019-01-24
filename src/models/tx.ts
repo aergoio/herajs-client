@@ -72,9 +72,9 @@ export default class Tx {
             let hash = this.hash;
             let hashBuffer;
             if (typeof hash === 'string') {
-                hashBuffer = Buffer.from(decodeTxHash(hash));
+                hashBuffer = new Uint8Array(Buffer.from(decodeTxHash(hash)));
             } else {
-                hashBuffer = Buffer.from(hash);
+                hashBuffer = new Uint8Array(Buffer.from(hash));
             }
             msgtx.setHash(hashBuffer);
         }
