@@ -342,13 +342,14 @@ class AergoClient {
         const query = stateQuery.toGrpc();
         return promisify(this.client.queryContractState, this.client)(query).then(
             (grpcObject: StateQueryProof) => {
-                if (grpcObject.getVarproof().getInclusion() === false) {
+                const varProof = grpcObject.getVarproofsList()[0];
+                if (varProof.getInclusion() === false) {
                     const addr = new Address(query.getContractaddress_asU8());
-                    throw Error(`queried variable ${query.getVarname()} does not exists in state at address ${addr.toString()}`);
+                    throw Error(`queried variable ${query.getStoragekeysList()[0]} does not exists in state at address ${addr.toString()}`);
                 }
-                const value = grpcObject.getVarproof().getValue_asU8();
+                const value = varProof.getValue_asU8();
                 if (value.length > 0) {
-                    return JSON.parse(Buffer.from(grpcObject.getVarproof().getValue_asU8()).toString());
+                    return JSON.parse(Buffer.from(varProof.getValue_asU8()).toString());
                 }
                 return null;
             }
