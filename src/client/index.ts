@@ -92,7 +92,7 @@ class AergoClient {
      */
     getChainInfo (): Promise<ChainInfo> {
         const empty = new Empty();
-        return promisify(this.client.getChainInfo, this.client)(empty).then((grpcObject: GrpcChainInfo): ChainInfo => ChainInfo.fromGrpc(grpcObject));
+        return promisify(this.client.client.getChainInfo, this.client.client)(empty).then((grpcObject: GrpcChainInfo): ChainInfo => ChainInfo.fromGrpc(grpcObject));
     }
 
 
