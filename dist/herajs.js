@@ -1,5 +1,5 @@
 /*!
- * herajs v0.4.3
+ * herajs v0.4.6
  * (c) 2019 AERGO
  * Released under MIT license.
  */
@@ -848,53 +848,6 @@
 	  }
 
 	  return target;
-	}
-
-	function _inherits(subClass, superClass) {
-	  if (typeof superClass !== "function" && superClass !== null) {
-	    throw new TypeError("Super expression must either be null or a function");
-	  }
-
-	  subClass.prototype = Object.create(superClass && superClass.prototype, {
-	    constructor: {
-	      value: subClass,
-	      writable: true,
-	      configurable: true
-	    }
-	  });
-	  if (superClass) _setPrototypeOf(subClass, superClass);
-	}
-
-	function _getPrototypeOf(o) {
-	  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-	    return o.__proto__ || Object.getPrototypeOf(o);
-	  };
-	  return _getPrototypeOf(o);
-	}
-
-	function _setPrototypeOf(o, p) {
-	  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-	    o.__proto__ = p;
-	    return o;
-	  };
-
-	  return _setPrototypeOf(o, p);
-	}
-
-	function _assertThisInitialized(self) {
-	  if (self === void 0) {
-	    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-	  }
-
-	  return self;
-	}
-
-	function _possibleConstructorReturn(self, call) {
-	  if (call && (typeof call === "object" || typeof call === "function")) {
-	    return call;
-	  }
-
-	  return _assertThisInitialized(self);
 	}
 
 	function _slicedToArray(arr, i) {
@@ -25625,21 +25578,21 @@
 
 	    if (address instanceof Address) {
 	      // Copy buffer
-	      this.value = Buffer.from(address.value);
+	      this.value = Buffer$1.from(address.value);
 	    } else if (typeof address === 'string') {
 	      if (address.length <= ACCOUNT_NAME_LENGTH) {
-	        this.value = Buffer.from(address); // .padEnd(ACCOUNT_NAME_LENGTH, "\0")
+	        this.value = Buffer$1.from(address); // .padEnd(ACCOUNT_NAME_LENGTH, "\0")
 	      } else {
 	        this.value = Address.decode(address);
 	      }
 
 	      this.encoded = address;
-	    } else if (address instanceof Buffer) {
+	    } else if (address instanceof Buffer$1) {
 	      // Treat array-like as buffer
 	      this.value = address;
 	    } else if (address instanceof Uint8Array) {
 	      // Treat array-like as buffer
-	      this.value = Buffer.from(address);
+	      this.value = Buffer$1.from(address);
 	    } else {
 	      throw new Error('Instantiate Address with raw bytes or string in base58-check encoding, not ' + address);
 	    } // Test if this is a name
@@ -25654,7 +25607,7 @@
 
 	    if (arrValue.length <= ACCOUNT_NAME_LENGTH) {
 	      this.isName = true;
-	      this.value = Buffer.from(arrValue);
+	      this.value = Buffer$1.from(arrValue);
 	    }
 	  }
 
@@ -25677,7 +25630,7 @@
 
 
 	      if (this.isName) {
-	        this.encoded = Buffer.from(this.value).toString();
+	        this.encoded = Buffer$1.from(this.value).toString();
 	        return this.encoded;
 	      } // Account address
 
@@ -25688,14 +25641,17 @@
 	  }], [{
 	    key: "decode",
 	    value: function decode(bs58string) {
-	      return bs58check.decode(bs58string).slice(1);
+	      var decoded = bs58check.decode(bs58string);
+	      if (decoded[0] !== ADDRESS_PREFIXES.ACCOUNT) throw new Error("invalid address prefix (".concat(decoded[0], ")"));
+	      if (decoded.length !== 33 + 1) throw new Error("invalid address length (".concat(decoded.length - 1, ")"));
+	      return Buffer$1.from(decoded.slice(1));
 	    }
 	  }, {
 	    key: "encode",
 	    value: function encode(byteArray) {
 	      if (!byteArray || byteArray.length === 0) return ''; // return empty string for null address
 
-	      var buf = Buffer.from([ADDRESS_PREFIXES.ACCOUNT].concat(_toConsumableArray(byteArray)));
+	      var buf = Buffer$1.from([ADDRESS_PREFIXES.ACCOUNT].concat(_toConsumableArray(byteArray)));
 	      return bs58check.encode(buf);
 	    }
 	  }]);
@@ -26082,11 +26038,11 @@
 	      msgtxbody.setAmount(this.amount.asBytes());
 
 	      if (this.payload != null) {
-	        msgtxbody.setPayload(Buffer.from(this.payload));
+	        msgtxbody.setPayload(Buffer$1.from(this.payload));
 	      }
 
 	      if (typeof this.sign === 'string') {
-	        msgtxbody.setSign(Buffer.from(this.sign, 'base64'));
+	        msgtxbody.setSign(Buffer$1.from(this.sign, 'base64'));
 	      } else {
 	        msgtxbody.setSign(this.sign);
 	      }
@@ -26108,9 +26064,9 @@
 	        var hashBuffer;
 
 	        if (typeof hash === 'string') {
-	          hashBuffer = Buffer.from(decodeTxHash(hash));
+	          hashBuffer = new Uint8Array(Buffer$1.from(decodeTxHash(hash)));
 	        } else {
-	          hashBuffer = Buffer.from(hash);
+	          hashBuffer = new Uint8Array(Buffer$1.from(hash));
 	        }
 
 	        msgtx.setHash(hashBuffer);
@@ -26214,7 +26170,7 @@
 	        personal.setPassphrase(passphrase);
 
 	        try {
-	          _this.client.createAccount(personal, function (err, rsp) {
+	          _this.client.client.createAccount(personal, function (err, rsp) {
 	            if (err) {
 	              reject(err);
 	            } else {
@@ -26241,7 +26197,7 @@
 	        var empty = new rpc_pb_1();
 
 	        try {
-	          _this2.client.getAccounts(empty, function (err, rsp) {
+	          _this2.client.client.getAccounts(empty, function (err, rsp) {
 	            if (err) {
 	              reject(err);
 	            } else {
@@ -26277,7 +26233,7 @@
 	        personal.setAccount(account);
 
 	        try {
-	          _this3.client.unlockAccount(personal, function (err, rsp) {
+	          _this3.client.client.unlockAccount(personal, function (err, rsp) {
 	            if (err) {
 	              reject(err);
 	            } else {
@@ -26310,7 +26266,7 @@
 	        personal.setAccount(account);
 
 	        try {
-	          _this4.client.lockAccount(personal, function (err, rsp) {
+	          _this4.client.client.lockAccount(personal, function (err, rsp) {
 	            if (err) {
 	              reject(err);
 	            } else {
@@ -26337,7 +26293,7 @@
 	        tx = new Tx$$1(tx);
 	      }
 
-	      return promisify(this.client.sendTX, this.client)(tx.toGrpc()).then(function (result) {
+	      return promisify(this.client.client.sendTX, this.client.client)(tx.toGrpc()).then(function (result) {
 	        var obj = result.toObject();
 
 	        if (obj.error && obj.detail) {
@@ -26364,7 +26320,7 @@
 	        tx = _tx;
 	      }
 
-	      return promisify(this.client.signTX, this.client)(tx.toGrpc()).then(function (signedtx) {
+	      return promisify(this.client.client.signTX, this.client.client)(tx.toGrpc()).then(function (signedtx) {
 	        return Tx$$1.fromGrpc(signedtx);
 	      });
 	    }
@@ -26407,10 +26363,10 @@
 	      return new Block({
 	        hash: Block.encodeHash(grpcObject.getHash_asU8()),
 	        header: _objectSpread({}, obj.header, {
-	          chainid: Buffer.from(grpcObject.getHeader().getChainid_asU8()).toString('utf8'),
+	          chainid: Buffer$1.from(grpcObject.getHeader().getChainid_asU8()).toString('utf8'),
 	          prevblockhash: Block.encodeHash(grpcObject.getHeader().getPrevblockhash_asU8()),
 	          coinbaseaccount: new Address(grpcObject.getHeader().getCoinbaseaccount_asU8()),
-	          pubkey: bs58.encode(grpcObject.getHeader().getPubkey_asU8())
+	          pubkey: Block.encodeHash(grpcObject.getHeader().getPubkey_asU8())
 	        }),
 	        body: obj.body
 	      });
@@ -26418,7 +26374,7 @@
 	  }, {
 	    key: "encodeHash",
 	    value: function encodeHash(bytes) {
-	      return bs58.encode(bytes);
+	      return bs58.encode(Buffer$1.from(bytes));
 	    }
 	  }, {
 	    key: "decodeHash",
@@ -26457,10 +26413,10 @@
 	      return new BlockMetadata({
 	        hash: Block.encodeHash(grpcObject.getHash_asU8()),
 	        header: _objectSpread({}, obj.header, {
-	          chainid: Buffer.from(grpcObject.getHeader().getChainid_asU8()).toString('utf8'),
+	          chainid: Buffer$1.from(grpcObject.getHeader().getChainid_asU8()).toString('utf8'),
 	          prevblockhash: Block.encodeHash(grpcObject.getHeader().getPrevblockhash_asU8()),
 	          coinbaseaccount: new Address(grpcObject.getHeader().getCoinbaseaccount_asU8()),
-	          pubkey: bs58.encode(grpcObject.getHeader().getPubkey_asU8())
+	          pubkey: Block.encodeHash(grpcObject.getHeader().getPubkey_asU8())
 	        }),
 	        txcount: obj.txcount
 	      });
@@ -26495,7 +26451,7 @@
 	      }
 
 	      obj.address = {
-	        address: Buffer.from(grpcObject.getAddress().getAddress_asU8()),
+	        address: Buffer$1.from(grpcObject.getAddress().getAddress_asU8()),
 	        port: obj.address.port,
 	        peerid: bs58.encode(grpcObject.getAddress().getPeerid_asU8())
 	      };
@@ -26618,7 +26574,7 @@
 	    key: "blockchain",
 	    value: function blockchain() {
 	      var empty = new rpc_pb_1();
-	      return promisify(this.client.blockchain, this.client)(empty).then(function (result) {
+	      return promisify(this.client.client.blockchain, this.client.client)(empty).then(function (result) {
 	        return _objectSpread({}, result.toObject(), {
 	          bestBlockHash: Block.encodeHash(result.getBestBlockHash_asU8())
 	        });
@@ -26639,9 +26595,9 @@
 	      var singleBytes = new typesNode.SingleBytes();
 	      singleBytes.setValue(Uint8Array.from(decodeTxHash(txhash)));
 	      return new Promise(function (resolve, reject) {
-	        _this.client.getBlockTX(singleBytes, function (err, result) {
+	        _this.client.client.getBlockTX(singleBytes, function (err, result) {
 	          if (err) {
-	            _this.client.getTX(singleBytes, function (err, result) {
+	            _this.client.client.getTX(singleBytes, function (err, result) {
 	              if (err) {
 	                reject(err);
 	              } else {
@@ -26688,7 +26644,7 @@
 
 	      var singleBytes = new typesNode.SingleBytes();
 	      singleBytes.setValue(Uint8Array.from(hashOrNumber));
-	      return promisify(this.client.getBlock, this.client)(singleBytes).then(function (result) {
+	      return promisify(this.client.client.getBlock, this.client.client)(singleBytes).then(function (result) {
 	        return Block.fromGrpc(result);
 	      });
 	    }
@@ -26725,7 +26681,7 @@
 	      params.setSize(size);
 	      params.setOffset(offset);
 	      params.setAsc(!desc);
-	      return promisify(this.client.listBlockHeaders, this.client)(params).then(function (result) {
+	      return promisify(this.client.client.listBlockHeaders, this.client.client)(params).then(function (result) {
 	        return result.getBlocksList().map(function (item) {
 	          return Block.fromGrpc(item);
 	        });
@@ -26735,7 +26691,7 @@
 	    key: "getBlockStream",
 	    value: function getBlockStream() {
 	      var empty = new typesNode.Empty();
-	      var stream = this.client.listBlockStream(empty);
+	      var stream = this.client.client.listBlockStream(empty);
 
 	      try {
 	        stream.on('error', function (error) {
@@ -26763,7 +26719,7 @@
 	    key: "getBlockMetadataStream",
 	    value: function getBlockMetadataStream() {
 	      var empty = new typesNode.Empty();
-	      var stream = this.client.listBlockMetadataStream(empty);
+	      var stream = this.client.client.listBlockMetadataStream(empty);
 
 	      try {
 	        stream.on('error', function (error) {
@@ -26798,7 +26754,7 @@
 	    value: function getState(address) {
 	      var singleBytes = new typesNode.SingleBytes();
 	      singleBytes.setValue(Uint8Array.from(new Address(address).asBytes()));
-	      return promisify(this.client.getState, this.client)(singleBytes).then(function (grpcObject) {
+	      return promisify(this.client.client.getState, this.client.client)(singleBytes).then(function (grpcObject) {
 	        return State.fromGrpc(grpcObject);
 	      });
 	    }
@@ -26807,7 +26763,7 @@
 	    value: function getNonce(address) {
 	      var singleBytes = new typesNode.SingleBytes();
 	      singleBytes.setValue(Uint8Array.from(new Address(address).asBytes()));
-	      return promisify(this.client.getState, this.client)(singleBytes).then(function (grpcObject) {
+	      return promisify(this.client.client.getState, this.client.client)(singleBytes).then(function (grpcObject) {
 	        return grpcObject.getNonce();
 	      });
 	    }
@@ -26817,7 +26773,7 @@
 	    /*tx*/
 	    {
 	      // Untested
-	      return promisify(this.client.verifyTX, this.client)()(function (grpcObject) {
+	      return promisify(this.client.client.verifyTX, this.client.client)()(function (grpcObject) {
 	        return Tx$$1.fromGrpc(grpcObject);
 	      });
 	    }
@@ -26841,7 +26797,7 @@
 
 	        txs.addTxs(tx.toGrpc(), 0);
 
-	        _this2.client.commitTX(txs, function (err, result) {
+	        _this2.client.client.commitTX(txs, function (err, result) {
 	          if (err == null && result.getResultsList()[0].getError()) {
 	            var obj = result.getResultsList()[0].toObject();
 	            err = new Error(errorMessageForCode(obj.error) + ': ' + obj.detail);
@@ -26865,7 +26821,7 @@
 	    value: function getTopVotes(count) {
 	      var singleBytes = new typesNode.SingleBytes();
 	      singleBytes.setValue(new Uint8Array(toBytesUint32(count)));
-	      return promisify(this.client.getVotes, this.client)(singleBytes).then(function (state) {
+	      return promisify(this.client.client.getVotes, this.client.client)(singleBytes).then(function (state) {
 	        return state.getVotesList().map(function (item) {
 	          return {
 	            amount: new Amount(item.getAmount_asU8()),
@@ -26884,7 +26840,7 @@
 	    value: function getStaking(address) {
 	      var singleBytes = new typesNode.SingleBytes();
 	      singleBytes.setValue(Uint8Array.from(new Address(address).asBytes()));
-	      return promisify(this.client.getStaking, this.client)(singleBytes).then(function (grpcObject) {
+	      return promisify(this.client.client.getStaking, this.client.client)(singleBytes).then(function (grpcObject) {
 	        return {
 	          amount: new Amount(grpcObject.getAmount_asU8()),
 	          when: grpcObject.getWhen()
@@ -26902,7 +26858,7 @@
 	    value: function getTransactionReceipt(txhash) {
 	      var singleBytes = new typesNode.SingleBytes();
 	      singleBytes.setValue(Uint8Array.from(decodeTxHash(txhash)));
-	      return promisify(this.client.getReceipt, this.client)(singleBytes).then(function (grpcObject) {
+	      return promisify(this.client.client.getReceipt, this.client.client)(singleBytes).then(function (grpcObject) {
 	        var obj = grpcObject.toObject();
 	        return {
 	          contractaddress: new Address(grpcObject.getContractaddress_asU8()),
@@ -26922,7 +26878,7 @@
 	    key: "queryContract",
 	    value: function queryContract(functionCall) {
 	      var query = functionCall.toGrpc();
-	      return promisify(this.client.queryContract, this.client)(query).then(function (grpcObject) {
+	      return promisify(this.client.client.queryContract, this.client.client)(query).then(function (grpcObject) {
 	        return JSON.parse(Buffer.from(grpcObject.getValue()).toString());
 	      });
 	    }
@@ -26937,7 +26893,7 @@
 	    key: "queryContractState",
 	    value: function queryContractState(stateQuery) {
 	      var query = stateQuery.toGrpc();
-	      return promisify(this.client.queryContractState, this.client)(query).then(function (grpcObject) {
+	      return promisify(this.client.client.queryContractState, this.client.client)(query).then(function (grpcObject) {
 	        if (grpcObject.getVarproof().getInclusion() === false) {
 	          var addr = new Address(query.getContractaddress_asU8());
 	          throw Error("queried variable ".concat(query.getVarname(), " does not exists in state at address ").concat(addr.toString()));
@@ -26963,7 +26919,7 @@
 	    value: function getABI(address) {
 	      var singleBytes = new typesNode.SingleBytes();
 	      singleBytes.setValue(Uint8Array.from(new Address(address).asBytes()));
-	      return promisify(this.client.getABI, this.client)(singleBytes).then(function (grpcObject) {
+	      return promisify(this.client.client.getABI, this.client.client)(singleBytes).then(function (grpcObject) {
 	        var obj = grpcObject.toObject();
 	        return {
 	          language: obj.language,
@@ -26985,7 +26941,7 @@
 	    key: "getPeers",
 	    value: function getPeers() {
 	      var empty = new typesNode.Empty();
-	      return promisify(this.client.getPeers, this.client)(empty).then(function (grpcObject) {
+	      return promisify(this.client.client.getPeers, this.client.client)(empty).then(function (grpcObject) {
 	        return grpcObject.getPeersList().map(function (peer) {
 	          return Peer.fromGrpc(peer);
 	        });
@@ -27001,7 +26957,7 @@
 	    value: function getNameInfo(name) {
 	      var nameObj = new rpc_pb_10();
 	      nameObj.setName(name);
-	      return promisify(this.client.getNameInfo, this.client)(nameObj).then(function (grpcObject) {
+	      return promisify(this.client.client.getNameInfo, this.client.client)(nameObj).then(function (grpcObject) {
 	        var obj = grpcObject.toObject();
 	        return {
 	          name: obj.name.name,
@@ -27013,18 +26969,6 @@
 
 	  return AergoClient;
 	}();
-
-	var Provider = function Provider() {
-	  _classCallCheck(this, Provider);
-
-	  // Proxy that passes method calls to the provider's client object
-	  return new Proxy(this, {
-	    get: function get(obj, field) {
-	      if (field in obj) return obj[field];
-	      return obj.client[field];
-	    }
-	  });
-	};
 
 	// This function is written in JS (ES5) to avoid an issue with TypeScript targeting ES5, but requiring Symbol.iterator
 	function iterateHeaders(headers, callback) {
@@ -29624,9 +29568,7 @@
 	 */
 	var GrpcWebProvider =
 	/*#__PURE__*/
-	function (_Provider) {
-	  _inherits(GrpcWebProvider, _Provider);
-
+	function () {
 	  /**
 	   * .. code-block:: javascript
 	   * 
@@ -29636,24 +29578,19 @@
 	   * @param {GrpcWebProviderConfig} config
 	   */
 	  function GrpcWebProvider() {
-	    var _this;
-
 	    var config = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
 	    _classCallCheck(this, GrpcWebProvider);
 
-	    _this = _possibleConstructorReturn(this, _getPrototypeOf(GrpcWebProvider).call(this));
+	    _defineProperty(this, "client", void 0);
 
-	    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "client", void 0);
+	    _defineProperty(this, "config", void 0);
 
-	    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "config", void 0);
-
-	    _this.config = _objectSpread({}, _this.defaultConfig, config);
+	    this.config = _objectSpread({}, this.defaultConfig, config);
 	    var options = {
 	      transport: dist_1.WebsocketTransportFactory
 	    };
-	    _this.client = new AergoRPCServiceClient_1(_this.config.url, options);
-	    return _this;
+	    this.client = new AergoRPCServiceClient_1(this.config.url, options);
 	  }
 
 	  _createClass(GrpcWebProvider, [{
@@ -29666,7 +29603,7 @@
 	  }]);
 
 	  return GrpcWebProvider;
-	}(Provider);
+	}();
 
 	/**
 	 * Data structure for contract function calls.
@@ -29817,7 +29754,7 @@
 	 * .. code-block:: javascript
 	 * 
 	 *     import { Contract } from '@herajs/client';
-	 *     const contract = Contract.fromAbi(abi).atAddress(address);
+	 *     const contract = Contract.fromAbi(abi).setAddress(address);
 	 *     aergo.queryContract(contract.someAbiFunction()).then(result => {
 	 *         console.log(result);
 	 *     })
