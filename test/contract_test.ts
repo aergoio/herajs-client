@@ -153,6 +153,28 @@ describe('Contracts', () => {
             assert.equal(result3[0].args[1], 11);
             assert.equal(result3.txHash, result2.txHash);
         });
+
+        it('should stream events from a deployed contract', (done) => {
+            let txhash;
+            async function sendTx() {
+                const contract = Contract.fromAbi(contractAbi).setAddress(contractAddress);
+                // @ts-ignore
+                const callTx = contract.inc().asTransaction({
+                    from: testAddress
+                });
+                txhash = await aergo.accounts.sendTransaction(callTx);
+            }
+            const stream = aergo.getEventStream({
+                address: contractAddress
+            });
+            stream.on('data', (event) => {
+                assert.equal(event.eventName, 'incremented');
+                assert.equal(event.txhash, txhash);
+                stream.cancel();
+                done();
+            });
+            sendTx();
+        });
     });
 
 

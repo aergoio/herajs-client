@@ -267,6 +267,26 @@ class AergoClient {
             cancel: () => stream.cancel()
         };
     }
+
+    getEventStream (filter: Partial<FilterInfo>) {
+        const fi = new FilterInfo(filter);
+        const query = fi.toGrpc();
+        const stream = this.client.client.listEventStream(query);
+        try {
+            stream.on('error', (error) => {
+                if (error.code === 1) { // grpc.status.CANCELLED
+                    return;
+                }
+            });
+        } catch (e) {
+            // ignore. 'error' does not work on grpc-web implementation
+        }
+        return {
+            _stream: stream,
+            on: (ev, callback) => stream.on(ev, data => callback(Event.fromGrpc(data))),
+            cancel: () => stream.cancel()
+        };
+    }
     
     
     /**
@@ -419,6 +439,7 @@ class AergoClient {
             }
         );
     }
+    
 
     /**
      * Query contract ABI
