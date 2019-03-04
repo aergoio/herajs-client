@@ -268,6 +268,21 @@ class AergoClient {
         };
     }
 
+    /**
+     * Returns a stream that yields new events matching the specified filter in real-time.
+     * 
+     * .. code-block:: javascript
+     * 
+     *      const stream = aergo.getEventStream({
+     *          address: 'Am....'
+     *      });
+     *      stream.on('data', (event) => {
+     *         console.log(event);
+     *         stream.cancel();
+     *      });
+     * 
+     * @param filter FilterInfo
+     */
     getEventStream (filter: Partial<FilterInfo>) {
         const fi = new FilterInfo(filter);
         const query = fi.toGrpc();
