@@ -38,7 +38,7 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.4.0",
     "@babel/plugin-transform-runtime": "^7.4.0",
     "@babel/preset-env": "^7.4.2",
-    "@babel/preset-typescript": "^7.1.0",
+    "@babel/preset-typescript": "^7.3.3",
     "@babel/register": "^7.0.0",
     "@herajs/crypto": "0.1.0",
     "@improbable-eng/grpc-web-node-http-transport": "^0.9.1",
